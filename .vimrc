@@ -32,7 +32,7 @@ let NERDTreeIgnore = ['\.coverage$','.pytest_cache','\.git$','.DS_Store','\.un.*
 let NERDTreeShowHidden=1
 nnoremap <leader>a :Ack
 nnoremap <leader>o :NERDTree <CR>
-nnoremap <leader>i :TlistToggle <CR>
+nnoremap <leader>i :TagbarToggle <CR>
 nnoremap <leader>t :CtrlP <CR>
 nnoremap <leader>l <F12> 
 autocmd BufRead *.js setlocal shiftwidth=2 softtabstop=2 tabstop=2
