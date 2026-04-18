@@ -66,6 +66,28 @@ inoremap <right> <nop>
 nnoremap j gj 
 nnoremap k gk
 autocmd BufRead *.* colorscheme codeschool
-au FocusLost * :wa
 inoremap jj <ESC>
+
+" --- Claude Code / external-editor watch ---------------------------
+" Vim here is compiled -clientserver, so we can't be poked from outside.
+" Instead: vim polls. `:checktime` is a cheap stat-per-buffer.
+set autoread
+set updatetime=1000
+
+augroup myvim_external_watch
+  autocmd!
+  autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * silent! checktime
+  autocmd FocusLost * silent! checktime | silent! wall
+augroup END
+
+if has('timers')
+  function! s:MyvimChecktimeTick(_timer) abort
+    if mode() !~# '[cr!t]'
+      silent! checktime
+    endif
+  endfunction
+  call timer_start(1000, function('s:MyvimChecktimeTick'), {'repeat': -1})
+endif
+
+let g:gitgutter_terminal_reports_focus = 1
 

@@ -35,6 +35,8 @@ declare -a plugins=(
   "vim-ruby                         vim-ruby/vim-ruby"
   "vim-slim                         slim-template/vim-slim"
   "yajs.vim                         othree/yajs.vim"
+  "vim-gitgutter                    airblade/vim-gitgutter"
+  "vim-tmux-focus-events            tmux-plugins/vim-tmux-focus-events"
 )
 
 pids=()

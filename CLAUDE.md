@@ -6,7 +6,7 @@ You are being asked to install the `myvim` vim config on the current machine (Li
 
 1. `vim --version | head -1` → need vim 8+ (9.x preferred).
 2. `git --version` → must exist.
-3. Network to `github.com` (you'll clone 16 repos).
+3. Network to `github.com` (you'll clone 18 repos).
 4. The repo is at `~/myvim` (or ask the user where it is, then use that path as `$REPO`).
 
 ## Install steps
@@ -23,20 +23,21 @@ ln -sfn "$REPO/.vim"   ~/.vim
 
 ### 2. Remove empty placeholder dirs under bundle/
 
-The repo checks in **empty** directories for 16 external plugins (so pathogen's intended layout is visible). `git clone` will refuse if the directory already exists, so remove empties first.
+The repo checks in **empty** directories for 18 external plugins (so pathogen's intended layout is visible). `git clone` will refuse if the directory already exists, so remove empties first.
 
 ```bash
 cd "$REPO/.vim/bundle"
 for d in ack.vim ctrlp.vim es.next.syntax.vim javascript-libraries-syntax.vim \
          nerdtree vim-endwise vim-es6 vim-fugitive vim-haml vim-javascript \
-         vim-jsx vim-rails vim-react-snippets vim-ruby vim-slim yajs.vim; do
+         vim-jsx vim-rails vim-react-snippets vim-ruby vim-slim yajs.vim \
+         vim-gitgutter vim-tmux-focus-events; do
   [ -d "$d" ] && [ -z "$(ls -A "$d" 2>/dev/null)" ] && rmdir "$d"
 done
 ```
 
 **Do not remove** `html`, `majutsushi-tagbar`, or `snipMate` — those are checked in with real content.
 
-### 3. Clone the 16 upstream repos (in parallel)
+### 3. Clone the 18 upstream repos (in parallel)
 
 Run these in parallel (background + `wait`) — serial is slow. Use `--depth 1`.
 
@@ -58,6 +59,8 @@ Run these in parallel (background + `wait`) — serial is slow. Use `--depth 1`.
 | `vim-ruby`                          | `vim-ruby/vim-ruby`                              |
 | `vim-slim`                          | `slim-template/vim-slim`                         |
 | `yajs.vim`                          | `othree/yajs.vim`                                |
+| `vim-gitgutter`                     | `airblade/vim-gitgutter`                         |
+| `vim-tmux-focus-events`             | `tmux-plugins/vim-tmux-focus-events`             |
 
 Simplest path: run `bash $REPO/install.sh` which does steps 1–4 in one shot and is idempotent.
 
