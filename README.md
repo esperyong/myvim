@@ -144,6 +144,52 @@ claude
 
 Now talk to Claude in its pane. When Claude edits a file you have open, vim's buffer refreshes within ~1 s with no action from you, and the gitgutter signs in column 1 (`+` / `~` / `-`) show what changed vs `HEAD`. For a full side-by-side diff, `:Gdiff` (vim-fugitive, already installed).
 
+## 基本流程（从一个空终端开始）：
+
+### 1. 开 tmux 会话（名字随便起，比如 code）
+```shell
+tmux new -s code
+```
+
+### 2. tmux 里，第一件事进工程目录，开 vim
+```shell
+cd ~/myvim       # 换成你要做的工程
+vim .
+```
+
+### 3. 按 Ctrl-b "  （竖着叠）或 Ctrl-b %  （左右并排）做分屏
+#    焦点会自动跳到新 pane
+
+### 4. 新 pane 里启动 claude
+claude
+
+此时你有两个 pane：上/左是 vim，下/右是 claude。常用 tmux 键位：
+
+┌───────────────────────────┬───────────────────────────────────────┐
+│           操作            │                 按键                  │
+├───────────────────────────┼───────────────────────────────────────┤
+│ 切 pane                   │ Ctrl-b 然后方向键（或 Ctrl-b o 循环） │
+├───────────────────────────┼───────────────────────────────────────┤
+│ 当前 pane 全屏/还原       │ Ctrl-b z                              │
+├───────────────────────────┼───────────────────────────────────────┤
+│ 调 pane 大小              │ Ctrl-b 按住 方向键                    │
+├───────────────────────────┼───────────────────────────────────────┤
+│ 关 claude 那个 pane       │ 在 claude 里退出后按 Ctrl-d           │
+├───────────────────────────┼───────────────────────────────────────┤
+│ 脱离会话（claude 继续跑） │ Ctrl-b d                              │
+├───────────────────────────┼───────────────────────────────────────┤
+│ 回到会话                  │ tmux attach -t code                   │
+└───────────────────────────┴───────────────────────────────────────┘
+
+### 日常节奏：
+在 claude pane 说话让它改代码，不用做任何操作，vim 那边的 buffer 1 秒内自动刷新，gutter 列里 +/~/- 就是这一波改动相对 HEAD 的增删改。想看完整
+diff：vim 里 :Gdiff（vim-fugitive 提供，已装）。
+
+### 两个注意点：
+- 如果你正在 vim 里改某文件、claude 也去改同一个文件，vim 不会自动覆盖你的未保存改动——buffer 保持 modified，你下次 :w 时 vim 会警告 W11，这时 :e!
+丢掉自己的重载 claude 的版本，或者 :w! 强盖。
+- 第一次生效 tmux 里的 focus-events on 需要是新会话（或 tmux kill-server 后再起）。你现在是第一次开 tmux，直接就是新的，没问题。
+
 ### Useful tmux keys
 
 | action | keys |
